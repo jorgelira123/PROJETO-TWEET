@@ -7,6 +7,9 @@ planilha = csv.reader( arquivo, delimiter = ',', lineterminator = '\n')
 
 lista_tweets = list(planilha)
 arquivo.close()
+global_data = False
+global_termo = False
+global_assunto = False
 
 #funcao para buscar tweets por data
 def buscar_data(data):
@@ -65,8 +68,15 @@ def buscar_assunto(assunto):
 #funcao que salva em arquivo json
 def salvar_busca(dic):
     json_object = json.dumps(dic) 
-    with open('./Busca_json.json', "w") as outfile: 
-        outfile.write(json_object)
+    if global_data == True:
+        with open('./Busca_Data.json', "w") as outfile: 
+            outfile.write(json_object)
+    elif global_termo == True:
+        with open('./Busca_Termo.json', "w") as outfile: 
+            outfile.write(json_object)
+    elif global_assunto == True:
+        with open('./Busca_Termo.json', "w") as outfile: 
+            outfile.write(json_object)
 
 def data_valida(data):
     try:
@@ -91,39 +101,48 @@ def data_valida(data):
     except ValueError:
         return False
 
-def menu():
-    print('Boas vindas ao nosso sistema:')
-    print('1 - Buscar tweets por data')
-    print('2 - Buscar tweets por termo')
-    print('3 - Buscar tweets por assunto')
-    print('4 - Salvar resultado da busca')
-    print('5 - Sair')
+def options():
+    option = ''
+    while option != type(int):
+        print('Boas vindas ao nosso sistema:')
+        print('1 - Buscar tweets por data')
+        print('2 - Buscar tweets por termo')
+        print('3 - Buscar tweets por assunto')
+        print('4 - Salvar resultado da busca')
+        print('5 - Sair')
+        option = input('Escreva sua opção: ') 
+        try:
+            return int(option)
+        except ValueError as err:
+            print()
+            print("Digite um Número inteiro!")
+            print()
+    return option
 
-menu()
-option = input('Escreva sua opção: ')
-print()
+selected_option = options()
 
-while option != 5:
-    if option == 1: 
+while selected_option != 5:
+    if selected_option == 1: 
         data = input('Digite uma data no formato dd/mm/aaaa: ')
         if data_valida(data):
             dic = buscar_data(data)
         else:
+            print()
             print('Atenção!! Formato da data não é válida, seguir o padrão dd/mm/aaaa')
-    elif option == 2:
+            print()
+    elif selected_option == 2:
         termo = input('Digite um termo: ')
         dic = buscar_termo(termo)
-    elif option == 3:
+    elif selected_option == 3:
         assunto = input('Digite um assunto: ')
         dic = buscar_assunto(assunto)
-    elif option == 4:
+    elif selected_option == 4:
         salvar_busca(dic)
     else:
         print('Opção Inválida. Tente Novamente.')
-        
+
     print()
-    menu()
-    option = int(input('Escreva sua opção: '))
+    selected_option = options()
 
 print('Obrigado por usar nosso programa. Até a próxima!')
 
