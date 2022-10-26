@@ -100,7 +100,7 @@ def menu():
     print('5 - Sair')
 
 menu()
-option = int(input('Escreva sua opção: '))
+option = input('Escreva sua opção: ')
 print()
 
 while option != 5:
@@ -126,28 +126,6 @@ while option != 5:
     option = int(input('Escreva sua opção: '))
 
 print('Obrigado por usar nosso programa. Até a próxima!')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
